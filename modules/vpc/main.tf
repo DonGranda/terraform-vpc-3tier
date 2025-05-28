@@ -18,7 +18,19 @@ resource "aws_internet_gateway" "main_internet_gateway" {
 }
 
 
-
+resource "aws_nat_gateway" "vpc_nat_gateway" {
+  for_each = {
+  for subnet in aws_subnet.subnets :
+  subnet.value.name => subnet.value
+  if subnet.value.tags.Type == "public"
+  }
+  allocation_id = aws_eip.nat_gateway_eip[each.key].id
+  subnet_id     = aws_subnet.subnets[each.key].id
+  tags = {
+    Name = "nat-gateway-${each.key}-${var.name_prefix}"
+  }
+  
+}
 
 
 
