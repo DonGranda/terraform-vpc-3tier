@@ -1,7 +1,12 @@
 resource "aws_route_table" "public_route_table" {
+    for_each = {
+      for subnet in aws_subnet.subnets :
+        subnet.value.name => subnet.value
+        if subnet.value.type == "public"
+    }
     vpc_id = var.vpc_id
     tags = {
-        Name = "${var.name_prefix}-public-rt"
+        Name = "${var.name_prefix}-public-rt${each.key}"
     }    
 
 }

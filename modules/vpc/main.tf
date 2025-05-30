@@ -1,36 +1,19 @@
+# Create the main VPC
 resource "aws_vpc" "main" {
-  cidr_block = var.cidr_block
-  enable_dns_support = true
-  enable_dns_hostnames = true
-
-  tags = {
-   Name = "${var.name_prefix}-vpc"
-  }
+  # Set the CIDR block for the VPC
+  cidr_block = var.vpc_cidr
   
-}
-
-
-resource "aws_internet_gateway" "main_internet_gateway" {
-  vpc_id = aws_vpc.main.id
-  tags = {
-    Name = "${var.name_prefix}-internet-gateway"
-  }
-}
-
-
-resource "aws_nat_gateway" "vpc_nat_gateway" {
-  for_each = {
-  for subnet in aws_subnet.subnets :
-  subnet.value.name => subnet.value
-  if subnet.value.tags.Type == "public"
-  }
-  allocation_id = aws_eip.nat_gateway_eip[each.key].id
-  subnet_id     = aws_subnet.subnets[each.key].id
-  tags = {
-    Name = "nat-gateway-${each.key}-${var.name_prefix}"
-  }
+  # Enable DNS resolution for instances in VPC
+  enable_dns_support = var.enable_dns_support
   
+  # Enable DNS hostnames for instances in VPC
+  enable_dns_hostnames = var.enable_dns_hostnames
+  
+  # Tag the VPC with name and environment
+  tags = {
+    Name        = "${var.project_name}-${var.environment}-vpc"
+    Environment = var.environment
+    Project     = var.project_name
+  }
 }
-
-
 
