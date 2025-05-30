@@ -1,24 +1,25 @@
 locals {
   # Create subnet configurations using maps
   public_subnets = {
-    for idx, cidr in var.public_subnet_cidrs : "public-az${idx + 1}" => {
+    for subent_id, cidr in var.public_subnet_cidrs : "public-az${subent_id + 1}" => {
       cidr_block              = cidr
-      availability_zone       = var.availability_zones[idx]
+      availability_zone       = var.availability_zones[subent_id]
       map_public_ip_on_launch = true
       type                    = "Public"
       tier                    = "Public"
-      az_index               = idx
+      az_index               = subent_id
     }
   }
   
   private_subnets = {
-    for idx, cidr in var.private_subnet_cidrs : "private-az${(idx % 2) + 1}-${floor(idx / 2) + 1}" => {
+    for subent_id, cidr in var.private_subnet_cidrs : 
+    "private-az${(subent_id % 2) + 1}-${floor(subent_id / 2) + 1}" => {
       cidr_block              = cidr
-      availability_zone       = var.availability_zones[idx % 2]
+      availability_zone       = var.availability_zones[subent_id % 2]
       map_public_ip_on_launch = false
       type                    = "Private"
-      tier                    = idx < 2 ? "App" : "DB"
-      az_index               = idx % 2
+      tier                    = subent_id < 2 ? "App" : "DB"
+      az_index               = az_index % 2
     }
   }
   
@@ -33,4 +34,3 @@ locals {
   }
 }
 
-#
