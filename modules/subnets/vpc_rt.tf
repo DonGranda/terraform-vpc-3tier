@@ -1,5 +1,4 @@
 resource "aws_route_table" "public_rt" {
-  for_each = local.public_subnets
   vpc_id   = var.vpc_id
 
   tags = {
@@ -9,12 +8,13 @@ resource "aws_route_table" "public_rt" {
     AZ          = each.value.availability_zone
     Type        = "Public"
   }
-
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "aws_route" "public_route" {
-  for_each = local.public_subnets
-  route_table_id         = aws_route_table.public_rt[each.key].id
+  route_table_id         = aws_route_table.public_rt.id
   destination_cidr_block = "0.0.0.0/0"
   gateway_id             = var.internet_gateway_id
 }
@@ -28,7 +28,7 @@ resource "aws_route_table" "private_rt" {
     Name        = "${var.project_name}-${var.environment}-${each.key}-private-rt"
     Environment = var.environment
     Project     = var.project_name
-    AZ          = each.value.availability_zone
+    AZ          = each.value.az_name
     Type        = "Private"
   }
 
