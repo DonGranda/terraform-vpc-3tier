@@ -19,7 +19,7 @@ locals {
       map_public_ip_on_launch = false
       type                    = "Private"
       tier                    = subent_id < 2 ? "App" : "DB"
-      az_index               = az_index % 2
+      az_index               = subent_id % 2
     }
   }
   
