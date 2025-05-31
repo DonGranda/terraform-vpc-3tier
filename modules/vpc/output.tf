@@ -20,8 +20,8 @@ output "internet_gateway_id" {
 output "nat_eip_ids" {
   description = "Map of Elastic IP IDs for NAT Gateways"
   value       = { 
-    for name, nat-gw in aws_eip.nat :
-    name => nat-gw.id }
+    for id, nat-gw in aws_eip.nat :
+    id => nat-gw.id }
 }
 
 # Output the Elastic IP addresses
