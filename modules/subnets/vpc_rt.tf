@@ -31,6 +31,9 @@ resource "aws_route_table" "private_rt" {
     AZ          = each.value.az_name
     Type        = "Private"
   }
+  lifecycle {
+    create_before_destroy = true
+  }
 
 }
 
