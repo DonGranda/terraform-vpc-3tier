@@ -1,11 +1,14 @@
-variable "name_prefix" {
-  description = "Prefix for the security group name"
+variable "vpc_id" {
+  description = "ID of the VPC where security groups will be created"
   type        = string
-  
 }
 
-variable "vpc_id" {
-  description = "The ID of the VPC to associate the security group with"
+variable "project_name" {
+  description = "Name of the project"
   type        = string
-  
+}
+
+variable "environment" {
+  description = "Environment name"
+  type        = string
 }
