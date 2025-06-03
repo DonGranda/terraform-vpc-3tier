@@ -15,10 +15,10 @@ output "all_subnet_details" {
   value = {
     for k, v in aws_subnet.all_subnets : k => {
       id                = v.id
-      cidr_block       = v.cidr_block
+      cidr_block        = v.cidr_block
       availability_zone = v.availability_zone
-      type             = v.tags.Type
-      tier             = v.tags.Tier
+      type              = v.tags.Type
+      tier              = v.tags.Tier
     }
   }
 }
@@ -29,13 +29,13 @@ output "nat_gateway_ids" {
   value       = { for k, v in aws_nat_gateway.main : k => v.id }
 }
 
-output "public_route_table_id" {
-  description = "ID of the public route table"
-  value       = aws_route_table.public.id
-}
+# output "public_route_table_id" {
+#   description = "ID of the public route table"
+#   value       = aws_route_table.public.id
+# }
 
-# Output private route table IDs
-output "private_route_table_ids" {
-  description = "Map of private route table IDs"
-  value       = { for k, v in aws_route_table.private : k => v.id }
-}
+# # Output private route table IDs
+# output "private_route_table_ids" {
+#   description = "Map of private route table IDs"
+#   value       = { for k, v in aws_route_table.private : k => v.id }
+# }
