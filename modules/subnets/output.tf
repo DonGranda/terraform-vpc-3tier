@@ -28,7 +28,12 @@ output "nat_gateway_ids" {
   description = "Map of NAT Gateway IDs"
   value       = { for k, v in aws_nat_gateway.main : k => v.id }
 }
-
+output "db_private_subnets" {
+  value = {
+    for key, subnet in local.private_subnets : key => subnet
+    if subnet.tier == "DB"
+  }
+}
 # output "public_route_table_id" {
 #   description = "ID of the public route table"
 #   value       = aws_route_table.public.id
