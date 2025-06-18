@@ -9,3 +9,15 @@ resource "aws_db_subnet_group" "db-subnet-grp" {
   }
 
 }
+
+resource "random_password" "db_password" {
+  length  = 16
+  special = true
+}
+
+resource "aws_ssm_parameter" "db_password" {
+  name  = "/${var.project_name}/${var.environment}/database/password"
+  type  = "SecureString"
+  value = random_password.db_password.result
+
+}
