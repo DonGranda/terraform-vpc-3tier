@@ -9,6 +9,13 @@ output "private_subnet_ids" {
   value       = { for k, v in aws_subnet.all_subnets : k => v.id if local.all_subnets[k].type == "Private" }
 }
 
+
+output "db_private_subnets_ids" {
+  description = "Map of private subnet IDs for the database"
+  value       = [ for key, v in aws_subnet.all_subnets :v.id 
+  if local.all_subnets[key].tier == "DB" ]
+  
+}
 # Output all subnet details
 output "all_subnet_details" {
   description = "Map of all subnets with their details"
@@ -34,6 +41,8 @@ output "db_private_subnets" {
     if subnet.tier == "DB"
   }
 }
+
+
 # output "public_route_table_id" {
 #   description = "ID of the public route table"
 #   value       = aws_route_table.public.id
