@@ -16,6 +16,22 @@ output "db_private_subnets_ids" {
   if local.all_subnets[key].tier == "DB" ]
   
 }
+
+output "app_private_subnets_ids" {
+  description = "Map of private subnet IDs for the application"
+  value       = [ for key, v in aws_subnet.all_subnets :v.id
+  if local.all_subnets[key].tier == "App" ]
+
+}
+
+output "app_private_subnet_ids_map" {
+  description = "Map of App private subnet IDs with keys"
+  value = {
+    for key, subnet in aws_subnet.all_subnets : key => subnet.id
+    if local.all_subnets[key].tier == "App"
+  }
+}
+
 # Output all subnet details
 output "all_subnet_details" {
   description = "Map of all subnets with their details"
@@ -40,6 +56,14 @@ output "db_private_subnets" {
     for key, subnet in local.private_subnets : key => subnet
     if subnet.tier == "DB"
   }
+}
+
+output "app_private_subnets" {
+  value = {
+    for key, subnet in local.private_subnets : key => subnet
+    if subnet.tier == "App"
+  }
+  
 }
 
 
