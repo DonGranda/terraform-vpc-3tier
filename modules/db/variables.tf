@@ -5,7 +5,7 @@ variable "environment" {
   description = "The environment for the resources, e.g., dev, staging, prod"
   type        = string
 }
-variable "private_subnet_ids" {
+variable "db_private_subnet_ids" {
   description = "List of private subnet IDs for the database"
   type        = list(string)
 
