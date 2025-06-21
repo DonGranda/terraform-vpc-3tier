@@ -28,3 +28,8 @@ variable "public_subnet_ids" {
   type        = map(string)
 
 }
+
+variable "instance_ids" {
+  description = "Map of EC2 instance IDs to attach to the ELB"
+  type        = map(string)
+}
