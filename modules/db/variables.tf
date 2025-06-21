@@ -11,11 +11,11 @@ variable "db_private_subnet_ids" {
 
 }
 
-variable "db_private_subnets" {
-  description = "Map of private subnets for the database"
-  type        = list(string)
+# variable "db_private_subnets" {
+#   description = "Map of private subnets for the database"
+#   type        = list(string)
 
-}
+# }
 
 variable "db_engine" {
   description = "Database engine"
