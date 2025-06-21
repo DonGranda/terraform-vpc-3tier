@@ -1,0 +1,39 @@
+output "alb_dns_name" {
+  description = "The DNS name of the Application Load Balancer"
+  value       = aws_lb.web_elb.dns_name
+}
+
+# ALB ARN - useful for other AWS services integration
+output "alb_arn" {
+  description = "The ARN of the Application Load Balancer"
+  value       = aws_lb.web_elb.arn
+}
+
+# ALB Zone ID - needed for Route 53 alias records
+output "alb_zone_id" {
+  description = "The canonical hosted zone ID of the Application Load Balancer"
+  value       = aws_lb.web_elb.zone_id
+}
+
+# Target Group ARN - useful for auto scaling group attachments
+output "target_group_arn" {
+  description = "The ARN of the Target Group"
+  value       = aws_lb_target_group.web_elb_target_group.arn
+}
+
+# Target Group Name
+output "target_group_name" {
+  description = "The name of the Target Group"
+  value       = aws_lb_target_group.web_elb_target_group.name
+}
+
+# ALB Security Group ID - useful for cross-referencing
+output "alb_security_group_id" {
+  description = "The ID of the ALB Security Group"
+  value       = aws_security_group.elb_sg.id
+}
+
+output "alb_url" {
+  description = "The complete URL of the Application Load Balancer"
+  value       = "http://${aws_lb.web_elb.dns_name}"
+}
