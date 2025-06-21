@@ -47,12 +47,9 @@ resource "aws_lb_listener" "web_elb_listener" {
 }
 
 
-#===================Incomplete Code===================
-
-# resource "aws_lb_target_group_attachment" "web_servers" {
-#   for_each = aws_instance.web_servers
-
-#   target_group_arn = aws_lb_target_group.web_elb_target_group.arn
-#   target_id        = each.value.id
-#   port             = 80
-# }
+resource "aws_lb_target_group_attachment" "web_servers" {
+  for_each = var.instance_ids
+  target_group_arn = aws_lb_target_group.web_elb_target_group.arn
+  target_id        = each.value
+  port             = 80
+}
