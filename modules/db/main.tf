@@ -27,11 +27,10 @@ resource "aws_db_instance" "db-instance" {
   skip_final_snapshot        = true
   auto_minor_version_upgrade = true
 
-
-
-
-
-
+    depends_on = [
+    aws_db_subnet_group.db-subnet-grp,
+    aws_ssm_parameter.db_password
+  ]
 
   tags = {
     Name        = "${var.project_name}-${var.environment}-db"
