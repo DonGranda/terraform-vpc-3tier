@@ -1,8 +1,8 @@
 module "vpc" {
+  source       = "./modules/vpc"
+  project_name = var.project_name
+  environment  = var.environment
 
-  source               = "./modules/vpc"
-  project_name         = var.project_name
-  environment          = var.environment
   vpc_cidr             = var.vpc_cidr
   enable_dns_hostnames = var.enable_dns_hostnames
   enable_dns_support   = var.enable_dns_support
@@ -10,15 +10,17 @@ module "vpc" {
 }
 
 module "subnets" {
-  source               = "./modules/subnets"
-  vpc_id               = module.vpc.vpc_id
+  source       = "./modules/subnets"
+  vpc_id       = module.vpc.vpc_id
+  project_name = var.project_name
+  environment  = var.environment
+
   internet_gateway_id  = module.vpc.internet_gateway_id
   nat_eip_ids          = module.vpc.nat_eip_ids
   availability_zones   = slice(data.aws_availability_zones.available.names, 0, length(var.public_subnet_cidrs))
   public_subnet_cidrs  = var.public_subnet_cidrs
   private_subnet_cidrs = var.private_subnet_cidrs
-  project_name         = var.project_name
-  environment          = var.environment
+
 }
 
 module "security_groups" {
@@ -65,10 +67,29 @@ module "web_server " {
   project_name = var.project_name
   environment  = var.environment
 
+  #Web server configuration
   instance_type               = var.instance_type
   app_security_group_id       = module.security_groups.app_security_group_id
   app_private_subnets_ids_map = module.subnets.app_private_subnet_ids_map
 }
 
+module "application_load_balancer" {
+  source       = "./modules/elb"
+  vpc_id       = module.vpc.vpc_id
+  project_name = var.project_name
+  environment  = var.environment
+
+  public_subnet_ids     = module.subnets.public_subnet_ids
+  web_security_group_id = module.security_groups.web_security_group_id
+  instance_ids          = module.web_server.instance_ids
+
+  depends_on = [
+    module.web_server,
+    module.security_groups,
+    module.subnets
+  ]
+
+
+}
 
 
