@@ -62,7 +62,7 @@ module "rds_db" {
 
 }
 
-module "web_server " {
+module "web_server" {
   source       = "./modules/web_server"
   project_name = var.project_name
   environment  = var.environment
