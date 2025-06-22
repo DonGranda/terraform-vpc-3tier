@@ -13,10 +13,10 @@ variable "web_security_group_id" {
   type        = string
 }
 
-variable "availability_zones" {
-  description = "List of availability zones for the ELB"
-  type        = list(string)
-}
+# variable "availability_zones" {
+#   description = "List of availability zones for the ELB"
+#   type        = list(string)
+# }
 
 variable "vpc_id" {
   description = "ID of the VPC where the ELB will be created"
