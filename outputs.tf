@@ -43,3 +43,49 @@ output "db_security_group_id" {
   value       = module.security_groups.db_security_group_id
 
 }
+
+output "db_instance_endpoint" {
+  description = "Endpoint of the RDS instance"
+  value       = module.rds_db.db_instance_endpoint
+
+}
+
+output "db_instance_port" {
+  description = "Port of the RDS instance"
+  value       = module.rds_db.db_instance_port
+
+}
+output "db_username" {
+  description = "Username for the database"
+  value = var.db_username
+  
+}
+output "db_name" {
+  description = "Database name"
+  value = var.db_name
+  
+}
+
+output "web_server_instance_ids" {
+  description = "Map of EC2 instance IDs for the web server"
+  value       = module.web_server.instance_ids
+  
+}
+
+output "alb_dns_name" {
+  description = "DNS name of the Application Load Balancer"
+  value       = module.elb.alb_dns_name
+  
+}
+
+output "alb_arn" {
+  description = "ARN of the Application Load Balancer"
+  value       = module.elb.alb_arn
+  
+}
+
+output "alb_url" {
+  description = "Complete URL of the Application Load Balancer"
+  value       = module.elb.alb_url
+  
+}
