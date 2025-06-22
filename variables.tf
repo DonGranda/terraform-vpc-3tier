@@ -45,3 +45,65 @@ variable "enable_dns_support" {
   type        = bool
   default     = true
 }
+
+//DATABASE VARIABLES
+variable "db_engine" {
+  description = "Database engine"
+  type        = string
+  default     = "mysql"
+
+  # validation {
+  #   condition     = contains(["mysql", "postgres", "mariadb", "oracle-ee", "oracle-se2", "oracle-se1", "oracle-se", "sqlserver-ee", "sqlserver-se", "sqlserver-ex", "sqlserver-web"], var.db_engine)
+  #   error_message = "Engine must be a valid RDS engine type."
+  # }
+
+}
+
+variable "db_engine_version" {
+  description = "Database engine version"
+  type        = string
+  default     = "8.0"
+}
+variable "db_instance_class" {
+  description = "Instance class for the database"
+  type        = string
+  default     = "db.t3.micro"
+}
+variable "db_allocated_storage" {
+  description = "Allocated storage for the database in GB"
+  type        = number
+  default     = 20
+}
+variable "db_max_allocated_storage" {
+  description = "Maximum allocated storage for the database in GB"
+  type        = number
+  default     = 100
+}
+variable "db_storage_type" {
+  description = "Storage type for the database"
+  type        = string
+  default     = "gp2"
+}
+variable "db_storage_encrypted" {
+  description = "Whether the database storage is encrypted"
+  type        = bool
+  default     = true
+}
+variable "db_name" {
+  description = "Name of the database"
+  type        = string
+  default     = "mydatabase"
+}
+variable "db_username" {
+  description = "Username for the database"
+  type        = string
+  default     = "admin"
+}
+
+
+variable "instance_type" {
+  description = "Instance type for the web server"
+  type        = string
+  default     = "t3.micro"
+
+}
