@@ -27,11 +27,6 @@ output "target_group_name" {
   value       = aws_lb_target_group.web_elb_target_group.name
 }
 
-# ALB Security Group ID - useful for cross-referencing
-output "alb_security_group_id" {
-  description = "The ID of the ALB Security Group"
-  value       = aws_security_group.elb_sg.id
-}
 
 output "alb_url" {
   description = "The complete URL of the Application Load Balancer"

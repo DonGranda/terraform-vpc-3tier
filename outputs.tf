@@ -74,18 +74,18 @@ output "web_server_instance_ids" {
 
 output "alb_dns_name" {
   description = "DNS name of the Application Load Balancer"
-  value       = module.elb.alb_dns_name
+  value       = module.application_load_balancer.alb_dns_name
   
 }
 
 output "alb_arn" {
   description = "ARN of the Application Load Balancer"
-  value       = module.elb.alb_arn
+  value       = module.application_load_balancer.alb_arn
   
 }
 
 output "alb_url" {
   description = "Complete URL of the Application Load Balancer"
-  value       = module.elb.alb_url
+  value       = module.application_load_balancer.alb_url
   
 }
