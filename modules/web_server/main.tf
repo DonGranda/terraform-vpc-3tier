@@ -1,4 +1,4 @@
-resource "aws_instance" "web_server" {
+resource "aws_instance" "web_servers" {
   for_each = var.app_private_subnets_ids_map
   # This module creates web server instances in the specified private subnets
   ami                    = data.aws_ami.ubuntu.id
