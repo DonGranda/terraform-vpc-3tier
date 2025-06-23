@@ -42,7 +42,7 @@ module "rds_db" {
   db_engine             = var.db_engine
   db_engine_version     = var.db_engine_version
   db_instance_class     = var.db_instance_class
-  db_security_group_id  = module.security_groups.db_security_group_id
+  db_security_group_id  = [module.security_groups.db_security_group_id]
   db_private_subnet_ids = module.subnets.db_private_subnets_ids
 
   # Database storage configuration
