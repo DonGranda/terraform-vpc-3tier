@@ -17,8 +17,8 @@ resource "aws_lb" "web_elb" {
 
 resource "aws_lb_target_group" "web_elb_target_group" {
   name     = "${var.project_name}-${var.environment}-tg"
-  port     = 80
-  protocol = "HTTP"
+  port     = var.target_group_port
+  protocol = var.target_group_protocol
   vpc_id   = var.vpc_id
 
   health_check {
@@ -46,10 +46,11 @@ resource "aws_lb_listener" "web_elb_listener" {
   }
 }
 
-
-resource "aws_lb_target_group_attachment" "web_servers" {
-  for_each         = var.instance_ids
-  target_group_arn = aws_lb_target_group.web_elb_target_group.arn
-  target_id        = each.value
-  port             = 80
-}
+#this is commented out because it is not needed in the current setup
+#uncomment if you want to attach instances directly to the target group`
+# resource "aws_lb_target_group_attachment" "web_servers" {
+#   for_each         = var.instance_ids
+#   target_group_arn = aws_lb_target_group.web_elb_target_group.arn
+#   target_id        = each.value
+#   port             = 80
+# }
