@@ -33,3 +33,15 @@ variable "instance_ids" {
   description = "Map of EC2 instance IDs to attach to the ELB"
   type        = map(string)
 }
+
+variable "target_group_port" {
+  description = "Port for the target group"
+  type        = number
+}
+
+variable "target_group_protocol" {
+  description = "Protocol for the target group"
+  type        = string
+  default     = "HTTP"
+  
+}
