@@ -25,7 +25,7 @@ variable "app_security_group_id" {
   type        = string
 }
 
-variable "target_group_arns" {
+variable "target_group_arn" {
   description = "List of target group ARNs to attach to the Auto Scaling Group"
   type        = list(string)
 #   default     = []
@@ -69,4 +69,23 @@ variable "associate_public_ip_address" {
   description = "Whether to associate a public IP address with instances"
   type        = bool
 
+}
+
+variable "alb_arn_suffix" {
+ description = "ALB ARN suffix for target tracking"
+  type        = string
+  default     = ""
+}
+
+variable "target_group_arn_suffix" {
+  description = "Target Group ARN suffix for target tracking"
+  type        = string
+  default     = ""
+}
+
+variable "enable_alb_target_tracking" {
+  description = "Enable ALB request count target tracking"
+  type        = bool
+  # Root moudle handle this variable
+  # default     = false
 }
