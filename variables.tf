@@ -104,6 +104,84 @@ variable "db_username" {
 variable "instance_type" {
   description = "Instance type for the web server"
   type        = string
-  default     = "t3.micro"
+  default     = "t3.medium"
 
+}
+
+variable "target_group_port" {
+  description = "Port for the target group"
+  type        = number
+  default     = 80
+}
+
+variable "target_group_protocol" {
+  description = "Protocol for the target group"
+  type        = string
+  default     = "HTTP"
+
+}
+
+variable "attach_instances_directly" {
+  description = "Flag to indicate if instances should be attached directly to the target group"
+  type        = bool
+  default     = false
+}
+
+
+#Auto Scaling Group Variables
+variable "root_volume_size" {
+  description = "Size of the root volume in GB"
+  type        = number
+  default     = 15
+}
+
+variable "root_volume_type" {
+  description = "Type of the root volume"
+  type        = string
+  default     = "gp3"
+}
+
+variable "ebs_encrypted" {
+  description = "Whether to encrypt the EBS volume"
+  type        = bool
+  default     = true
+
+}
+
+variable "min_size" {
+  description = "Minimum number of instances in the Auto Scaling Group"
+  type        = number
+  default     = 1
+}
+
+variable "max_size" {
+  description = "Maximum number of instances in the Auto Scaling Group"
+  type        = number
+  default     = 6
+}
+variable "desired_capacity" {
+  description = "Desired number of instances in the Auto Scaling Group"
+  type        = number
+  default     = 2
+}
+
+variable "enable_alb_target_tracking" {
+  description = "Enable ALB request count target tracking"
+  type        = bool
+  default     = false
+
+}
+
+#SNS Notification Variables
+
+variable "notification_email" {
+  description = "Email address for SNS notifications"
+  type        = string
+  default     = "lesliekofiameg@gmail.com"
+}
+
+variable "notification_sms_number" {
+  description = "Phone number for SMS notifications"
+  type        = string
+  default     = "+233203931172"
 }
