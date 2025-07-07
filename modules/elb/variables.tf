@@ -43,5 +43,10 @@ variable "target_group_protocol" {
   description = "Protocol for the target group"
   type        = string
   default     = "HTTP"
-  
+
+}
+
+variable "attach_instances_directly" {
+  description = "Flag to indicate if instances should be attached directly to the target group"
+  type        = bool
 }
