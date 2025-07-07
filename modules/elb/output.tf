@@ -21,6 +21,11 @@ output "target_group_arn" {
   value       = aws_lb_target_group.web_elb_target_group.arn
 }
 
+output "target_group_id" {
+  description = "The ID of the Target Group"
+  value       = aws_lb_target_group.web_elb_target_group.id
+}
+
 
 output "target_group_arn_suffix" {
   description = "The suffix of the Target Group ARN for target tracking"
@@ -30,7 +35,7 @@ output "target_group_arn_suffix" {
 output "alb_arn_suffix" {
   description = "The suffix of the Application Load Balancer ARN for target tracking"
   value       = aws_lb.web_elb.arn_suffix
-  
+
 }
 
 # Target Group Name
