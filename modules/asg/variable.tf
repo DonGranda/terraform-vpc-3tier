@@ -27,8 +27,8 @@ variable "app_security_group_id" {
 
 variable "target_group_arn" {
   description = "List of target group ARNs to attach to the Auto Scaling Group"
-  type        = list(string)
-#   default     = []
+  type        = string
+  #   default     = []
 }
 
 variable "min_size" {
@@ -64,15 +64,9 @@ variable "ebs_encrypted" {
 
 }
 
-# Network Interface Variables
-variable "associate_public_ip_address" {
-  description = "Whether to associate a public IP address with instances"
-  type        = bool
-
-}
 
 variable "alb_arn_suffix" {
- description = "ALB ARN suffix for target tracking"
+  description = "ALB ARN suffix for target tracking"
   type        = string
   default     = ""
 }
@@ -88,4 +82,14 @@ variable "enable_alb_target_tracking" {
   type        = bool
   # Root moudle handle this variable
   # default     = false
+}
+
+variable "notification_email" {
+  description = "Email address for SNS notifications"
+  type        = string
+}
+
+variable "notification_sms_number" {
+  description = "Phone number for SMS notifications"
+  type        = string
 }
