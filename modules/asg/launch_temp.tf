@@ -5,9 +5,6 @@ resource "aws_launch_template" "app_server-template" {
   instance_type          = var.instance_type
   vpc_security_group_ids = [var.app_security_group_id]
 
-
-
-
   #user data 
   user_data = filebase64("${path.module}/webapp.sh")
 
