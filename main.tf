@@ -79,9 +79,12 @@ module "application_load_balancer" {
   project_name = var.project_name
   environment  = var.environment
 
-  public_subnet_ids     = module.subnets.public_subnet_ids
-  web_security_group_id = module.security_groups.web_security_group_id
-  instance_ids          = module.web_server.instance_ids
+  public_subnet_ids         = module.subnets.public_subnet_ids
+  web_security_group_id     = module.security_groups.web_security_group_id
+  instance_ids              = module.web_server.instance_ids
+  target_group_port         = var.target_group_port
+  target_group_protocol     = var.target_group_protocol
+  attach_instances_directly = var.attach_instances_directly
 
   depends_on = [
     module.web_server,
@@ -92,4 +95,39 @@ module "application_load_balancer" {
 
 }
 
+module "auto_scaling_group" {
+  source       = "./modules/asg"
+  project_name = var.project_name
+  environment  = var.environment
+
+  #Launch Template configuration
+  app_security_group_id = module.security_groups.app_security_group_id
+  instance_type         = var.instance_type
+  root_volume_size      = var.root_volume_size
+  root_volume_type      = var.root_volume_type
+  ebs_encrypted         = var.ebs_encrypted
+
+  #ASG configuration
+  app_private_subnets_ids_map = module.subnets.app_private_subnet_ids_map
+  target_group_arn            = module.application_load_balancer.target_group_arn
+  min_size                    = var.min_size
+  max_size                    = var.max_size
+  desired_capacity            = var.desired_capacity
+  enable_alb_target_tracking  = var.enable_alb_target_tracking
+  alb_arn_suffix              = module.application_load_balancer.alb_arn_suffix
+  target_group_arn_suffix     = module.application_load_balancer.target_group_arn_suffix
+
+
+  #SNS Notification Configuration
+  notification_email      = var.notification_email
+  notification_sms_number = var.notification_sms_number
+
+  depends_on = [
+    module.web_server,
+    module.application_load_balancer,
+    module.security_groups,
+    module.subnets
+  ]
+
+}
 
