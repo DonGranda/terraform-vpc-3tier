@@ -1,3 +1,8 @@
+module "iam_github_actions" {
+  source       = "./modules/iam"
+
+}
+
 module "vpc" {
   source       = "./modules/vpc"
   project_name = var.project_name
@@ -130,4 +135,5 @@ module "auto_scaling_group" {
   ]
 
 }
+
 
