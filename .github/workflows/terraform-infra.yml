@@ -1,0 +1,52 @@
+name: Deploy Infrastructure
+on:
+  workflow_dispatch:
+    inputs:
+      terraform_action:
+        type: choice
+        description: 'Select the Terraform action to perform'
+        required: true
+        options:
+          - plan
+          - apply
+          - destroy
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  deploy_infra:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: eu-north-1
+          role-to-assume: arn:aws:iam::600627332632:role/GithubActions
+          role-session-name: github-actions
+          
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.12.1
+          
+      - name: Terraform init
+        run: terraform init
+        
+      - name: Terraform plan
+        if: ${{ github.event.inputs.terraform_action == 'plan' }}
+        run: terraform plan
+        
+      - name: Terraform apply
+        if: ${{ github.event.inputs.terraform_action == 'apply' }}
+        run: terraform apply -auto-approve
+        
+      - name: Terraform destroy
+        if: ${{ github.event.inputs.terraform_action == 'destroy' }}
+        run: terraform destroy -auto-approve
