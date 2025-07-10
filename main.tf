@@ -1,7 +1,7 @@
-# module "iam_github_actions" {
-#   source       = "./modules/iam"
+module "iam_github_actions" {
+  source       = "./modules/iam"
 
-# }
+}
 
 module "vpc" {
   source       = "./modules/vpc"
