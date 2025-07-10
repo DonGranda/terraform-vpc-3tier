@@ -53,11 +53,11 @@ jobs:
       
       - name: Terraform plan (manual dispatch)
         if: ${{ github.event.inputs.terraform_action == 'plan' || github.event.inputs.terraform_action == '' }}
-        run: terraform plan -out=tfplan
+        run: terraform plan 
       
       - name: Terraform apply
         if: ${{ github.event.inputs.terraform_action == 'apply' }}
-        run: terraform apply -auto-approve tfplan
+        run: terraform apply -auto-approve 
       
       - name: Terraform destroy
         if: ${{ github.event.inputs.terraform_action == 'destroy' }}
