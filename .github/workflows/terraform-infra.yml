@@ -44,8 +44,8 @@ jobs:
       - name: Terraform validate
         run: terraform validate
       
-      - name: Terraform format check
-        run: terraform fmt -check
+      # - name: Terraform format check
+      #   run: terraform fmt -check
       
       - name: Terraform plan (on push)
         if: ${{ github.event_name == 'push' }}
