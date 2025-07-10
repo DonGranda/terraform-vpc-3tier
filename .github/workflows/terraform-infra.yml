@@ -10,6 +10,7 @@ on:
           - plan
           - apply
           - destroy
+        default: plan
   push:
     branches:
       - main
@@ -17,6 +18,7 @@ on:
 permissions:
   contents: read
   id-token: write
+  pull-requests: read
 
 jobs:
   deploy_infra:
@@ -24,29 +26,39 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-        
+      
       - uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: eu-north-1
           role-to-assume: arn:aws:iam::600627332632:role/GithubActions
           role-session-name: github-actions
-          
+      
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v3
         with:
-          terraform_version: 1.12.1
-          
+          terraform_version: 1.6.6
+      
       - name: Terraform init
         run: terraform init
-        
-      - name: Terraform plan
-        if: ${{ github.event.inputs.terraform_action == 'plan' }}
+      
+      - name: Terraform validate
+        run: terraform validate
+      
+      - name: Terraform format check
+        run: terraform fmt -check
+      
+      - name: Terraform plan (on push)
+        if: ${{ github.event_name == 'push' }}
         run: terraform plan
-        
+      
+      - name: Terraform plan (manual dispatch)
+        if: ${{ github.event.inputs.terraform_action == 'plan' || github.event.inputs.terraform_action == '' }}
+        run: terraform plan -out=tfplan
+      
       - name: Terraform apply
         if: ${{ github.event.inputs.terraform_action == 'apply' }}
-        run: terraform apply -auto-approve
-        
+        run: terraform apply -auto-approve tfplan
+      
       - name: Terraform destroy
         if: ${{ github.event.inputs.terraform_action == 'destroy' }}
         run: terraform destroy -auto-approve

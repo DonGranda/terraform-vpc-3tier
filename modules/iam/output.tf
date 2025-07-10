@@ -13,7 +13,7 @@ output "oidc_provider_arn" {
   value       = aws_iam_openid_connect_provider.github_actions_oidc.arn
 }
 
-output "infrastructure_policy_arn" {
-  description = "ARN of the infrastructure policy"
-  value       = aws_iam_policy.github_actions_infrastructure_policy.arn
-}
+# output "infrastructure_policy_arn" {
+#   description = "ARN of the infrastructure policy"
+#   value       = aws_iam_policy.github_actions_access_policy.arn
+# }
